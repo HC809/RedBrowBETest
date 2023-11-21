@@ -4,6 +4,7 @@ using RedbrowBackendTest.Entities;
 using RedbrowBackendTest.Models;
 using RedbrowBackendTest.Repository.Interfaces;
 using RedbrowBackendTest.Services.Interfaces;
+using System.Text.RegularExpressions;
 
 namespace RedbrowBackendTest.Services
 {
@@ -52,6 +53,12 @@ namespace RedbrowBackendTest.Services
 
             if (string.IsNullOrWhiteSpace(model.Correo))
                 throw new ArgumentException(string.Format(message, nameof(model.Correo)), nameof(model.Correo));
+            else
+            {
+                string pattern = @"^\S+@\S+\.\S+$";
+                if (!Regex.IsMatch(model.Correo, pattern))
+                    throw new ArgumentException("El formato del correo electrónico no es válido.", nameof(model.Correo));
+            }
 
             if (model.Edad <= 0)
                 throw new ArgumentException("La 'Edad' debe ser mayor que cero.", nameof(model.Edad));
