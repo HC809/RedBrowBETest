@@ -30,5 +30,34 @@ namespace RedbrowBackendTest.Services
                 PageSize = pagedResult.PageSize
             };
         }
+
+        public async Task<UsuarioDTO> CreateUser(UsuarioDTO model)
+        {
+            await ValidateModel(model);
+
+            Usuario userEntity = await _userRepository.InsertAsync(_mapper.Map<Usuario>(model));
+
+            return _mapper.Map<UsuarioDTO>(userEntity);
+        }
+
+        public async Task<bool> ExistUserByEmail(string email)
+            => await _userRepository.ExistEntityByFilterAsync(q => q.Correo.Trim() == email.Trim());
+
+        private async Task ValidateModel(UsuarioDTO model)
+        {
+            var message = "El campo '{0}' del modelo no puede ser nulo o vacío.";
+
+            if (string.IsNullOrWhiteSpace(model.Nombre))
+                throw new ArgumentException(string.Format(message, nameof(model.Nombre)), nameof(model.Nombre));
+
+            if (string.IsNullOrWhiteSpace(model.Correo))
+                throw new ArgumentException(string.Format(message, nameof(model.Correo)), nameof(model.Correo));
+
+            if (model.Edad <= 0)
+                throw new ArgumentException("La 'Edad' debe ser mayor que cero.", nameof(model.Edad));
+
+            if (await ExistUserByEmail(model.Correo))
+                throw new ArgumentException($"Ya existe un usuario con el correo electrónico '{model.Correo}'.");
+        }
     }
 }

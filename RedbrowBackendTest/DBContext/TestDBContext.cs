@@ -26,6 +26,8 @@ public partial class TestDBContext : DbContext
 
             entity.ToTable("usuario");
 
+            entity.HasIndex(e => e.Correo, "correo_unique").IsUnique();
+
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Correo)
                 .HasMaxLength(100)

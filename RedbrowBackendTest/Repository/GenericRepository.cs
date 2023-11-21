@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using RedbrowBackendTest.DBContext;
 using RedbrowBackendTest.Models;
 using RedbrowBackendTest.Repository.Interfaces;
+using System.Linq.Expressions;
 
 namespace RedbrowBackendTest.Repository
 {
@@ -32,6 +34,16 @@ namespace RedbrowBackendTest.Repository
                 PageNumber = pageNumber,
                 PageSize = pageSize
             };
+        }
+
+        public async virtual Task<bool> ExistEntityByFilterAsync(Expression<Func<TEntity, bool>> filter)
+                => await dbSet.AnyAsync(filter);
+
+        public async Task<TEntity> InsertAsync(TEntity entity)
+        {
+            await dbSet.AddAsync(entity);
+            await context.SaveChangesAsync();
+            return entity;
         }
     }
 }

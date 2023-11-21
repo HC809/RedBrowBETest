@@ -8,7 +8,7 @@ namespace RedbrowBackendTest.Mapper
     {
         public UserProfile()
         {
-            CreateMap<Usuario, UsuarioDTO>();
+            CreateMap<Usuario, UsuarioDTO>().ReverseMap();
         }
     }
 }

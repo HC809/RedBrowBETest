@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using RedbrowBackendTest.DTOs;
 using RedbrowBackendTest.Services.Interfaces;
 
 namespace RedbrowBackendTest.Controllers
@@ -17,5 +18,8 @@ namespace RedbrowBackendTest.Controllers
 
         [HttpGet("{pageNumber:int}/{pageSize:int}")]
         public async Task<IActionResult> ObtenerUsuarios(int pageNumber, int pageSize) => Ok(await _userService.GetAll(pageNumber, pageSize));
+
+        [HttpPost]
+        public async Task<IActionResult> CrearUsuario(UsuarioDTO user) => Ok(await _userService.CreateUser(user));
     }
 }
