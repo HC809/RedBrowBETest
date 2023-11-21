@@ -4,6 +4,7 @@ using RedbrowBackendTest.Repository.Interfaces;
 using RedbrowBackendTest.Repository;
 using RedbrowBackendTest.Services.Interfaces;
 using RedbrowBackendTest.Services;
+using RedbrowBackendTest.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,6 +32,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseMiddleware<ErrorHandlerMiddleware>();
 
 app.MapControllers();
 
