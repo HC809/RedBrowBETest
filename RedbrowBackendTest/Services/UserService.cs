@@ -17,9 +17,9 @@ namespace RedbrowBackendTest.Services
             _mapper = mapper;
         }
 
-        public async Task<UsuarioDTO> GetAll()
+        public async Task<List<UsuarioDTO>> GetAll()
         {
-            return _mapper.Map<UsuarioDTO>(await _userRepository.GetAllAsync());
+            return _mapper.Map<List<UsuarioDTO>>(await _userRepository.GetAllAsync());
         }
     }
 }

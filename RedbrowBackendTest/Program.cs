@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using RedbrowBackendTest.DBContext;
 using RedbrowBackendTest.Repository.Interfaces;
 using RedbrowBackendTest.Repository;
+using RedbrowBackendTest.Services.Interfaces;
+using RedbrowBackendTest.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,7 +15,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<TestDBContext>(opt => opt.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+builder.Services.AddScoped<IUserService, UserService>();
 
 var app = builder.Build();
 
