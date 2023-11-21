@@ -4,6 +4,6 @@ namespace RedbrowBackendTest.Services.Interfaces
 {
     public interface IUserService
     {
-        Task<List<UsuarioDTO>> GetAll();
+        Task<PagedUsersDTO> GetAll(int pageNumber, int pageSize);
     }
 }

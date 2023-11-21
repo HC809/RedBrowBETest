@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using RedbrowBackendTest.DTOs;
 using RedbrowBackendTest.Entities;
+using RedbrowBackendTest.Models;
 using RedbrowBackendTest.Repository.Interfaces;
 using RedbrowBackendTest.Services.Interfaces;
 
@@ -17,9 +18,17 @@ namespace RedbrowBackendTest.Services
             _mapper = mapper;
         }
 
-        public async Task<List<UsuarioDTO>> GetAll()
+        public async Task<PagedUsersDTO> GetAll(int pageNumber, int pageSize)
         {
-            return _mapper.Map<List<UsuarioDTO>>(await _userRepository.GetAllAsync());
+            PagedResult<Usuario> pagedResult = await _userRepository.GetAllAsync(pageNumber, pageSize);
+
+            return new PagedUsersDTO()
+            {
+                Items = _mapper.Map<List<UsuarioDTO>>(pagedResult.Items),
+                TotalCount = pagedResult.TotalCount,
+                PageNumber = pagedResult.PageNumber,
+                PageSize = pagedResult.PageSize
+            };
         }
     }
 }

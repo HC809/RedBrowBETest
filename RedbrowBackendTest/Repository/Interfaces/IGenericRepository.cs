@@ -1,7 +1,9 @@
-﻿namespace RedbrowBackendTest.Repository.Interfaces
+﻿using RedbrowBackendTest.Models;
+
+namespace RedbrowBackendTest.Repository.Interfaces
 {
     public interface IGenericRepository<TEntity> where TEntity : class
     {
-        Task<IEnumerable<TEntity>> GetAllAsync();
+        Task<PagedResult<TEntity>> GetAllAsync(int pageNumber, int pageSize);
     }
 }

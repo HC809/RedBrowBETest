@@ -15,7 +15,7 @@ namespace RedbrowBackendTest.Controllers
             _userService = userService;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> ObtenerUsuarios() => Ok(await _userService.GetAll());
+        [HttpGet("{pageNumber:int}/{pageSize:int}")]
+        public async Task<IActionResult> ObtenerUsuarios(int pageNumber, int pageSize) => Ok(await _userService.GetAll(pageNumber, pageSize));
     }
 }

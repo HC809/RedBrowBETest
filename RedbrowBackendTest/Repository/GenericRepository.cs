@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RedbrowBackendTest.DBContext;
+using RedbrowBackendTest.Models;
 using RedbrowBackendTest.Repository.Interfaces;
 
 namespace RedbrowBackendTest.Repository
@@ -15,6 +16,22 @@ namespace RedbrowBackendTest.Repository
             dbSet = context.Set<TEntity>();
         }
 
-        public async Task<IEnumerable<TEntity>> GetAllAsync() => await dbSet.AsNoTracking().ToListAsync();
+        public async Task<PagedResult<TEntity>> GetAllAsync(int pageNumber, int pageSize)
+        {
+            var totalCount = await dbSet.AsNoTracking().CountAsync();
+
+            var items = await dbSet.AsNoTracking()
+                                   .Skip((pageNumber - 1) * pageSize)
+                                   .Take(pageSize)
+                                   .ToListAsync();
+
+            return new PagedResult<TEntity>
+            {
+                Items = items,
+                TotalCount = totalCount,
+                PageNumber = pageNumber,
+                PageSize = pageSize
+            };
+        }
     }
 }
