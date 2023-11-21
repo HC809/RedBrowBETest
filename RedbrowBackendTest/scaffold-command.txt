@@ -1,0 +1,1 @@
+﻿Scaffold-DbContext "Host=noemi.postgres.database.azure.com:5432;database=redbrowtestdb;user id=noemiadmin;password=Azure@23*;" Npgsql.EntityFrameworkCore.PostgreSQL -OutputDir Entities -ContextDir DBContext -Context "TestDBContext" -Tables usuario -Force -NoPluralize
